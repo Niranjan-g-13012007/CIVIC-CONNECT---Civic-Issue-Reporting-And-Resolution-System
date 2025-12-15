@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Connect | All Issues</title>
+    <!-- Load Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex-grow: 1;
+        }
+        /* General Styles */
+        .header-bg {
+            background-image: linear-gradient(to right, #ffe5b4, #ffffff);
+        }
+        .btn-orange-outline {
+            border-color: #f97316;
+            color: #f97316;
+        }
+        .btn-orange-outline:hover {
+            background-color: #f97316;
+            color: #ffffff;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #f97316;
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #f97316 !important;
+            font-weight: 600;
+            background-color: #fff3e0;
+            border-radius: 0.5rem;
+        }
+        .nav-link.active:hover::after {
+            width: 0;
+        }
+        .marquee-bg {
+            background-color: #fff3e0;
+        }
+
+        /* Issues Page Specific Styles */
+        .category-tabs .nav-link {
+            color: #4A5568;
+            font-weight: 600;
+            border: 2px solid transparent;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        .category-tabs .nav-link:hover {
+            background-color: #f97316;
+            color: white;
+            border-color: #f97316;
+        }
+        .category-tabs .nav-link.active {
+            background-color: #f97316 !important;
+            color: white !important;
+            border-color: #f97316 !important;
+        }
+        .issue-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+            display: none; /* Hidden by default for filtering */
+        }
+        .issue-card.visible {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .issue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            border-color: #f97316;
+        }
+        .issue-card-img {
+            height: 220px;
+            object-fit: cover;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+        .issue-card .card-body {
+            padding: 1.5rem;
+        }
+        .badge-urgency {
+            font-size: 0.8rem;
+            padding: 0.4em 0.9em;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .badge-high { background-color: #dd6b20; color: white; } /* Dark Orange */
+        .badge-medium { background-color: #ed8936; color: white; } /* Light Orange */
+        .badge-low { background-color: #f6ad55; color: white; } /* Yellow-Orange */
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #718096;
+        }
+        .info-item i {
+            color: #f97316;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Header with logo, title, and navigation -->
+    <header class="header-bg shadow-sm sticky-top z-10">
+        <nav class="navbar navbar-expand-md">
+            <div class="container-fluid mx-auto px-4 py-3 d-flex justify-content-between align-items-center">
+                <a href="#" class="navbar-brand d-flex align-items-center me-auto text-dark fw-bold rounded-md p-2 hover:bg-gray-100 transition-colors">
+                    <img src="civicconnect logo.png" alt="Civic Connect Logo" class="rounded-circle me-2" style="height: 48px; width: 48px;" onerror="this.src='https://placehold.co/48x48/14B8A6/FFFFFF?text=Logo'">
+                    <span class="fs-4">Civic Connect</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" aria-current="page" href="issues.html">Issues</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="trackprogress.html">Track Progress</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="reportanissue.html">Report an Issue</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="registration.html">Registration</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" aria-current="page" href="aboutus.html">About Us</a></li>
+                        <li class="nav-item ms-lg-3" id="public-login-btn">
+                            <a href="publiclogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">Public Login</a>
+                        </li>
+                        <li class="nav-item ms-lg-2" id="authority-login-btn">
+                            <a href="authoritylogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">Authority Login</a>
+                        </li>
+                        <li class="nav-item ms-lg-3" id="user-info" style="display: none;">
+                            <div class="d-flex align-items-center">
+                                <span id="user-name-display" class="btn btn-warning rounded-pill me-2 fw-semibold text-dark"></span>
+                                <button id="logout-button" class="btn btn-orange-outline rounded-pill fw-semibold">Logout</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="fw-bold">Reported Issues Overview</h1>
+            <p class="fs-5 text-muted">Browse and discover community issues by category</p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div id="category-filters" class="d-flex justify-content-center flex-wrap mb-5 category-tabs">
+            <!-- Tabs will be injected by JS -->
+        </div>
+
+        <!-- Issues Grid -->
+        <div id="issues-grid" class="row g-4">
+            <!-- Issue cards will be populated here -->
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-success text-white py-5 mt-5 text-center rounded-top-3">
+        <p class="text-gray-200 mb-0">© 2025 Civic Connect | All rights reserved.</p>
+        <p class="text-gray-200 mb-0">Connecting Citizens for a Better Nations</p>
+    </footer>
+
+    <!-- Load Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const publicUserName = localStorage.getItem("publicUserName");
+            const userInfo = document.getElementById("user-info");
+            const userNameDisplay = document.getElementById("user-name-display");
+            const publicLoginBtn = document.getElementById("public-login-btn");
+            const authorityLoginBtn = document.getElementById("authority-login-btn");
+            const logoutButton = document.getElementById("logout-button");
+
+            if (publicUserName) {
+                // User is logged in
+                userNameDisplay.textContent = publicUserName;
+                userInfo.style.display = "block";
+                publicLoginBtn.style.display = "none";
+                authorityLoginBtn.style.display = "none";
+            } else {
+                // User is not logged in
+                userInfo.style.display = "none";
+                publicLoginBtn.style.display = "block";
+                authorityLoginBtn.style.display = "block";
+            }
+
+            logoutButton.addEventListener("click", () => {
+                localStorage.removeItem("publicUserName");
+                window.location.href = "publiclogin.html";
+            });
+
+            const categories = [
+                'All Issues',
+                'Roads & Transportation',
+                'Water & Sanitation',
+                'TNEB & Streetlights',
+                'Waste Management',
+                'Public Health & Hospitality',
+                'Public Parks & Spaces',
+                'General Nuisance',
+                'Others'
+            ];
+
+            const categoryFiltersContainer = document.getElementById('category-filters');
+            const issuesGridContainer = document.getElementById('issues-grid');
+            let allIssues = [];
+
+            const fetchIssues = async () => {
+                try {
+                    const response = await fetch('http://localhost:5000/api/getIssues');
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    allIssues = await response.json();
+                    renderCategoryTabs();
+                    filterIssues('All Issues'); // Display all issues by default
+                } catch (error) {
+                    issuesGridContainer.innerHTML = `<p class="text-center text-danger">Failed to load issues: ${error.message}</p>`;
+                }
+            };
+
+            const renderCategoryTabs = () => {
+                categoryFiltersContainer.innerHTML = categories.map(category => 
+                    `<a href="#" class="nav-link ${category === 'All Issues' ? 'active' : ''}" data-category="${category}">${category}</a>`
+                ).join('');
+
+                categoryFiltersContainer.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'A') {
+                        e.preventDefault();
+                        const category = e.target.dataset.category;
+                        document.querySelectorAll('.category-tabs .nav-link').forEach(link => link.classList.remove('active'));
+                        e.target.classList.add('active');
+                        filterIssues(category);
+                    }
+                });
+            };
+
+            const renderIssueCards = (issues) => {
+                issuesGridContainer.innerHTML = ''; // Clear previous cards
+                if (!issues || issues.length === 0) {
+                    issuesGridContainer.innerHTML = '<div class="col-12"><p class="text-center text-muted">No issues found in this category.</p></div>';
+                    return;
+                }
+                
+                issues.forEach(issue => {
+                    const urgencyClasses = {
+                        'High': 'badge-high',
+                        'Medium': 'badge-medium',
+                        'Low': 'badge-low'
+                    };
+                    const urgencyClass = urgencyClasses[issue.urgencyLevel] || 'bg-secondary';
+
+                    const cardHTML = `
+                        <div class="col-md-6 col-lg-4 issue-card visible" data-category="${issue.issueType}">
+                            <div class="card h-100">
+                                <img src="/api/getIssueImage/${issue._id}" class="issue-card-img" alt="${issue.subject}">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold mb-2">${issue.subject}</h5>
+                                    <span class="badge-urgency ${urgencyClass} align-self-start mb-3">${issue.urgencyLevel}</span>
+                                    <p class="card-text text-muted mb-4 flex-grow-1">${issue.description}</p>
+                                    <div class="mt-auto">
+                                        <div class="info-item mb-2">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>${issue.address}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>${new Date(issue.createdAt).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    issuesGridContainer.insertAdjacentHTML('beforeend', cardHTML);
+                });
+            };
+
+            const filterIssues = (category) => {
+                let filtered = [];
+                if (category === 'All Issues') {
+                    filtered = allIssues;
+                } else {
+                    filtered = allIssues.filter(issue => issue.issueType === category);
+                }
+                renderIssueCards(filtered);
+            };
+
+            fetchIssues();
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Connect | About Us</title>
+    <!-- Load Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        /* General Styles */
+        .header-bg {
+            background-image: linear-gradient(to right, #ffe5b4, #ffffff);
+        }
+        .btn-orange-outline {
+            border-color: #f97316;
+            color: #f97316;
+            transition: background .3s, color .3s;
+        }
+        .btn-orange-outline:hover {
+            background-color: #f97316;
+            color: #ffffff;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #f97316;
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #f97316 !important;
+            font-weight: 600;
+            background-color: #fff3e0;
+            border-radius: 0.5rem;
+        }
+        .nav-link.active:hover::after {
+            width: 0;
+        }
+        .marquee-bg {
+            background-color: #fff3e0;
+        }
+        /* Hero Section Styling */
+        .hero-section {
+            background: linear-gradient(to right, #f7fafc, #ffffff);
+            padding: 6rem 0;
+        }
+        .hero-title {
+            color: #d95311;
+            font-weight: 800;
+        }
+        .hero-subtitle {
+            color: #4b5563;
+        }
+        /* Our Mission Section Styling */
+        .mission-section {
+            padding: 4rem 0;
+            position: relative;
+            z-index: 2;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            transform: translateY(-50px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .mission-title {
+            color: #d95311;
+            transition: color .3s;
+            cursor: pointer;
+        }
+        /* How It Works Section Styling */
+        .how-it-works-section {
+            padding: 4rem 0;
+        }
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #f97316;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+        .step-title {
+            color: #333;
+            font-weight: 600;
+        }
+        /* Our Commitment Section Styling */
+        .commitment-section {
+            padding: 4rem 0;
+            background-color: #f1f5f9;
+        }
+        .commitment-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .commitment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .commitment-title {
+            color: #d95311;
+            font-weight: 700;
+            transition: color .3s;
+            cursor: pointer;
+        }
+        .commitment-list li {
+            font-size: 1.1rem;
+            line-height: 1.75;
+            transition:background 0.3s;
+            cursor: pointer;
+        }
+        .commitment-list i {
+            color: #f97316;
+            margin-right: 0.5rem;
+        }
+        /* Extra Section Styles */
+        .hover-shadow:hover { box-shadow: 0 8px 20px rgba(217,83,17,.15)!important; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Header (unchanged) -->
+    <header class="header-bg shadow-sm sticky-top z-10">
+        <nav class="navbar navbar-expand-md">
+            <div class="container-fluid mx-auto px-4 py-3 d-flex justify-content-between align-items-center">
+                <a href="#" class="navbar-brand d-flex align-items-center me-auto text-dark fw-bold rounded-md p-2 hover:bg-gray-100 transition-colors">
+                    <img src="civicconnect logo.png" alt="Civic Connect Logo" class="rounded-circle me-2" style="height: 48px; width: 48px;" onerror="this.src='https://placehold.co/48x48/14B8A6/FFFFFF?text=Logo'">
+                    <span class="fs-4">Civic Connect</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="issues.html">Issues</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="trackprogress.html">Track Progress</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="reportanissue.html">Report an Issue</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="registration.html">Registration</a></li>
+                        <li class="nav-item"><a class="nav-link active text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" aria-current="page" href="aboutus.html">About Us</a></li>
+                        <li class="nav-item ms-lg-3">
+                            <a href="publiclogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">Public Login</a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a href="authoritylogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">Authority Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section text-center rounded-bottom-5">
+            <div class="container py-5">
+                <h1 class="hero-title display-4 fw-bold mb-3">About Civic Connect</h1>
+                <p class="hero-subtitle lead px-md-5 mx-md-5">
+                    We are dedicated to building a bridge between citizens and their local governments to create a more efficient, transparent, and collaborative community.
+                </p>
+            </div>
+        </section>
+
+        <!-- Mission & Vision Section -->
+        <section class="container mission-section text-center">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-8">
+                    <h2 class="mission-title fw-bold mb-4" onmouseover="this.style.color='#f97316';" onmouseout="this.style.color='#d95311';">Our Mission and Vision</h2>
+                    <p class="lead-text">
+                        Our mission is to empower every citizen with a voice to report issues that matter, ensuring a seamless and transparent system for civic improvement. We envision a future where technology empowers citizens to be the heart of positive change in their communities.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- How It Works Section -->
+        <section class="how-it-works-section bg-light text-center">
+            <div class="container">
+                <h2 class="fw-bold mb-5" style="color: #333;">How It Works</h2>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="step-icon">1</div>
+                        <h5 class="step-title">Report an Issue</h5>
+                        <p class="text-muted">Easily report civic issues with a photo, location, and a brief description. Our platform makes it simple to provide all the necessary details.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-icon">2</div>
+                        <h5 class="step-title">Track Progress</h5>
+                        <p class="text-muted">Follow your report from submission to resolution. Receive real-time updates and notifications on the status of your issue.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-icon">3</div>
+                        <h5 class="step-title">Connect with Community</h5>
+                        <p class="text-muted">Engage with fellow citizens, support local issues, and work together to make your community a better place for everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Our Commitment Section -->
+        <section class="commitment-section text-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-8">
+                        <div class="commitment-card">
+                            <h3 class="commitment-title mb-4" onmouseover="this.style.color='#f97316';" onmouseout="this.style.color='#d95311';">Our Commitment to You</h3>
+                            <p class="text-muted lead-text mb-4">
+                                At Civic Connect, we are committed to providing a secure, transparent, and effective platform for civic engagement.
+                            </p>
+                            <ul class="list-unstyled text-start commitment-list">
+                                <li class="mb-3" onmouseover="this.style.background='#fff3e0';" onmouseout="this.style.background='none';">
+                                    <i class="fas fa-check-circle"></i> <strong>Transparency:</strong> We ensure all reported issues and their progress are visible to the community, fostering trust and accountability.
+                                </li>
+                                <li class="mb-3" onmouseover="this.style.background='#fff3e0';" onmouseout="this.style.background='none';">
+                                    <i class="fas fa-check-circle"></i> <strong>Data Privacy:</strong> Your personal information is secure. We use your data only to improve the platform and facilitate communication with authorities.
+                                </li>
+                                <li class="mb-3" onmouseover="this.style.background='#fff3e0';" onmouseout="this.style.background='none';">
+                                    <i class="fas fa-check-circle"></i> <strong>Empowerment:</strong> We give you the tools to be a catalyst for change, from reporting issues to collaborating with authorities and fellow citizens.
+                                </li>
+                                <li class="mb-3" onmouseover="this.style.background='#fff3e0';" onmouseout="this.style.background='none';">
+                                    <i class="fas fa-check-circle"></i> <strong>Reliability:</strong> We are constantly working to improve our platform, ensuring a seamless and reliable experience for all users.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Marquee Text Section -->
+    <div class="marquee-bg text-orange-700 fw-bold py-3 mt-5 shadow-sm text-center">
+        <marquee behavior="scroll" direction="left" scrollamount="8" class="text-sm fw-semibold" style="color: #d95311;">
+            This page is designed and maintained by Niranjan, Ranjith, and Nathish
+        </marquee>
+    </div>
+
+    <!-- Footer (unchanged) -->
+    <footer class="bg-success text-white py-5 mt-5 text-center rounded-top-3">
+        <p class="text-gray-200 mb-0">© 2025 Civic Connect | All rights reserved.</p>
+        <p class="text-gray-200 mb-0">Connecting Citizens for a Better Nations</p>
+    </footer>
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const userName = localStorage.getItem("publicUserName");
+
+    if (userName) {
+        const navList = document.querySelector(".navbar-nav");
+
+        // Remove Public Login and Authority Login buttons
+        navList.querySelectorAll(".btn-orange-outline").forEach(btn => btn.remove());
+
+        // Add user name
+        const liName = document.createElement("li");
+        liName.classList.add("nav-item", "ms-lg-3");
+        liName.innerHTML = `<span class="fw-semibold py-2 px-3 rounded-pill bg-warning text-dark">${userName}</span>`;
+        navList.appendChild(liName);
+
+        // Add logout button
+        const liLogout = document.createElement("li");
+        liLogout.classList.add("nav-item", "ms-lg-2");
+        liLogout.innerHTML = `<button id="logoutBtn" class="btn btn-outline-warning fw-semibold py-2 px-4 rounded-pill btn-orange-outline">Logout</button>`;
+        navList.appendChild(liLogout);
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("publicUserName");
+            location.reload();
+        });
+    }
+});
+</script>
+
+    <!-- Load Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

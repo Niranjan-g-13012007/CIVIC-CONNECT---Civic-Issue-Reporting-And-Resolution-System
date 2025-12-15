@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Connect | Public Login</title>
+    <!-- Load Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        /* General Styles */
+        .header-bg {
+            background-image: linear-gradient(to right, #ffe5b4, #ffffff);
+        }
+        .btn-orange-outline {
+            border-color: #f97316;
+            color: #f97316;
+        }
+        .btn-orange-outline:hover {
+            background-color: #f97316;
+            color: #ffffff;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #f97316;
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #f97316 !important;
+            font-weight: 600;
+            background-color: #fff3e0;
+            border-radius: 0.5rem;
+        }
+        .nav-link.active:hover::after {
+            width: 0;
+        }
+
+        /* Login Page Specific Styles */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        .login-container {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        .login-card {
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            animation: slideInRight 1s ease-out forwards;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        .login-card .card-header {
+            background-color: transparent;
+            border-bottom: none;
+            padding-bottom: 0;
+            text-align: center;
+        }
+        .login-card .card-body {
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .login-card .card-header img {
+            animation: pulse 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        .login-card .card-header img:hover {
+            transform: scale(1.1);
+        }
+        .login-card .card-title {
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        .form-label {
+            animation: fadeInUp 0.6s ease-out both;
+            animation-delay: 0.1s;
+        }
+        .form-label:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .form-label:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        .form-control {
+            animation: fadeInUp 0.6s ease-out both;
+            animation-delay: 0.1s;
+        }
+        .form-control:nth-of-type(2) {
+            animation-delay: 0.2s;
+        }
+        .form-control:nth-of-type(3) {
+            animation-delay: 0.3s;
+        }
+        .form-check {
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+        .btn-primary {
+            animation: fadeInUp 0.6s ease-out 0.5s both;
+        }
+        .text-center {
+            animation: fadeInUp 0.6s ease-out 0.6s both;
+        }
+        .login-card .form-control {
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            background-color: #f8f9fa;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .login-card .form-control:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.25);
+            background-color: #ffffff;
+            transform: translateY(-2px);
+        }
+        .login-card .form-control:hover {
+            border-color: #f97316;
+            transform: translateY(-1px);
+        }
+        .login-card .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-card .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        .login-card .btn-primary:hover::before {
+            left: 100%;
+        }
+        .login-card .btn-primary:hover {
+            background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+        .login-card .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        /* Carousel specific styles */
+        .carousel-container {
+            border-radius: 1.5rem;
+            overflow: hidden;
+            height: 100%;
+            max-height: 550px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            animation: slideInLeft 1s ease-out forwards;
+            transition: all 0.3s ease;
+        }
+        .carousel-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        .carousel-item {
+            position: relative;
+            transition: all 0.5s ease-in-out;
+        }
+        .carousel-item img {
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .carousel-item:hover img {
+            transform: scale(1.05);
+        }
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2));
+            transition: all 0.3s ease;
+        }
+        .carousel-item:hover .carousel-overlay {
+            background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+        }
+        .carousel-caption {
+            background-color: transparent;
+            bottom: 20px;
+            text-align: left;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+        .carousel-caption h5 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+        .carousel-caption p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .carousel-indicators [data-bs-target] {
+            background-color: #fff;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+        }
+        .carousel-indicators [data-bs-target]:hover {
+            opacity: 0.8;
+            transform: scale(1.2);
+        }
+        .carousel-indicators .active {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+        .carousel-control-prev, .carousel-control-next {
+            width: 10%;
+            transition: all 0.3s ease;
+        }
+        .carousel-control-prev:hover, .carousel-control-next:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            transition: all 0.3s ease;
+        }
+        .carousel-control-prev:hover .carousel-control-prev-icon,
+        .carousel-control-next:hover .carousel-control-next-icon {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Header with logo, title, and navigation -->
+    <header class="header-bg shadow-sm sticky-top z-10">
+        <nav class="navbar navbar-expand-md">
+            <div class="container-fluid mx-auto px-4 py-3 d-flex justify-content-between align-items-center">
+                <!-- Logo and Title -->
+                <a href="#" class="navbar-brand d-flex align-items-center me-auto text-dark fw-bold rounded-md p-2 hover:bg-gray-100 transition-colors">
+                    <!-- Civic Connect Logo (PNG) -->
+                    <img src="civicconnect logo.png" alt="Civic Connect Logo" class="rounded-circle me-2" style="height: 48px; width: 48px;" onerror="this.src='https://placehold.co/48x48/14B8A6/FFFFFF?text=Logo'">
+                    <span class="fs-4">Civic Connect</span>
+                </a>
+                
+                <!-- Toggler for Mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Navigation Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link active text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="issues.html">Issues</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="trackprogress.html">Track Progress</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="reportanissue.html">Report an Issue</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="registration.html">Registration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="aboutus.html">About Us</a>
+                        </li>
+                        <!-- Login Buttons -->
+                        <li class="nav-item ms-lg-3">
+                            <a href="publiclogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">
+                                Public Login
+                            </a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a href="authoritylogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">
+                                Authority Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content - Carousel and Login Form -->
+    <main class="login-container">
+        <div class="container my-3">
+            <div class="row align-items-center justify-content-center">
+                
+                <!-- Left Column - Carousel -->
+                <div class="col-12 col-lg-7 mb-5 mb-lg-0 pe-lg-4">
+                    <div id="loginCarousel" class="carousel slide carousel-container" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="carrosalpl1.png" class="d-block w-100" alt="Report Issues">
+                                <div class="carousel-overlay"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="fw-bold">Report Issues Effortlessly</h5>
+                                    <p class="fs-6">Pinpoint civic issues with precision and report them to authorities with a single click.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="carrosalpl2.png" class="d-block w-100" alt="Track Progress">
+                                <div class="carousel-overlay"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="fw-bold">Track Live Progress</h5>
+                                    <p class="fs-6">Monitor the live status of your reported issues and watch as your feedback leads to change.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="carrosalpl3.png" class="d-block w-100" alt="Community Updates">
+                                <div class="carousel-overlay"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="fw-bold">Community-Driven Solutions</h5>
+                                    <p class="fs-6">Upvote issues and engage in discussions to support the needs of your community.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="carrosalpl4.png" class="d-block w-100" alt="Transparency">
+                                <div class="carousel-overlay"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="fw-bold">Empowerment Through Transparency</h5>
+                                    <p class="fs-6">We provide a bridge between citizens and authorities, promoting accountability and transparency.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="carrosalpl5.png" class="d-block w-100" alt="Local Government">
+                                <div class="carousel-overlay"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="fw-bold">Connect with Your Local Government</h5>
+                                    <p class="fs-6">Civic Connect helps you to connect with local authorities to solve your local problems. </p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#loginCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#loginCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column - Login Form -->
+                <div class="col-12 col-lg-5">
+                    <div class="card login-card p-4">
+                        <div class="card-header">
+                            <img src="publicimage.jpg" alt="Login Icon" class="rounded-circle mb-3" style="width: 80px; height: 80px;">
+                            <h2 class="card-title fw-bold" style="color: #333;">Public User Login</h2>
+                        </div>
+                        <div class="card-body">
+
+                            <form method="POST" action="/public-login">
+                                <div class="mb-4">
+                                    <label for="email" class="form-label fw-semibold">Email</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="password" class="form-label fw-semibold">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary fw-semibold rounded-pill py-3">Login</button>
+                                </div>
+                            </form>
+
+                            <div class="text-center mt-4">
+                                <p class="text-muted mb-0">Don't have an account? <a href="registration.html" class="fw-semibold text-decoration-none">Register Now</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-success text-white py-5 mt-5 text-center rounded-top-3">
+        <p class="text-gray-200 mb-0">© 2025 Civic Connect | All rights reserved.</p>
+        <p class="text-gray-200 mb-0">Connecting Citizens for a Better Nations</p>
+    </footer>
+
+<script>
+const form = document.querySelector("form");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    try {
+        const res = await fetch("http://localhost:5000/public-login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+            const toastEl = document.getElementById('publicSuccessToast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 2000 });
+            toast.show();
+
+            const userName = data.name || email;
+            localStorage.setItem("publicUserName", userName);
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 2000);
+
+        } else {
+            const toastEl = document.getElementById('publicErrorToast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 2000 });
+            toast.show();
+        }
+
+    } catch (err) {
+        console.error(err);
+        const toastEl = document.getElementById('publicErrorToast');
+        const toast = new bootstrap.Toast(toastEl, { delay: 2000 });
+        toast.show();
+    }
+});
+</script>
+
+
+
+<!-- Success Toast - Left Side -->
+<div class="position-fixed top-0 start-0 p-3" style="z-index: 1080;">
+  <div id="publicSuccessToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body fw-semibold">
+        Login Successful!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Error Toast - Left Side -->
+<div class="position-fixed top-0 start-0 p-3" style="z-index: 1080;">
+  <div id="publicErrorToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body fw-semibold">
+        Invalid Civic ID or Password!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Load Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Connect | Track Progress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .header-bg {
+            background-image: linear-gradient(to right, #ffe5b4, #ffffff);
+        }
+        .btn-orange-outline {
+            border-color: #f97316;
+            color: #f97316;
+        }
+        .btn-orange-outline:hover {
+            background-color: #f97316;
+            color: #ffffff;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #f97316;
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #f97316 !important;
+            font-weight: 600;
+            background-color: #fff3e0;
+            border-radius: 0.5rem;
+        }
+        .nav-link.active:hover::after {
+            width: 0;
+        }
+        .tracking-container {
+            padding: 3rem 0;
+        }
+        .tracking-card {
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        .tracking-card:hover {
+            transform: translateY(-5px);
+        }
+        .dashboard-container {
+            display: none; 
+            margin-top: 2rem;
+        }
+        .urgency-badge {
+            font-size: 0.9rem;
+            padding: 0.5em 1em;
+        }
+        .progress-tracker {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-top: 1.5rem;
+        }
+        .progress-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        .progress-step .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            color: #6c757d;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #e9ecef;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .progress-step.active .step-icon {
+            background-color: #f97316;
+            color: #fff;
+            border-color: #f97316;
+        }
+        .progress-bar-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #e9ecef;
+            z-index: -1;
+        }
+        .progress-bar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #f97316;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-bg shadow-sm sticky-top z-10">
+        <nav class="navbar navbar-expand-md">
+            <div class="container-fluid mx-auto px-4 py-3 d-flex justify-content-between align-items-center">
+                <a href="#" class="navbar-brand d-flex align-items-center me-auto text-dark fw-bold rounded-md p-2 hover:bg-gray-100 transition-colors">
+                    <img src="civicconnect logo.png" alt="Civic Connect Logo" class="rounded-circle me-2" style="height: 48px; width: 48px;" onerror="this.src='https://placehold.co/48x48/14B8A6/FFFFFF?text=Logo'">
+                    <span class="fs-4">Civic Connect</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="issues.html">Issues</a></li>
+                        <li class="nav-item"><a class="nav-link active text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" aria-current="page" href="trackprogress.html">Track Progress</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="reportanissue.html">Report an Issue</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="registration.html">Registration</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" aria-current="page" href="aboutus.html">About Us</a></li>
+                        <li class="nav-item ms-lg-3">
+                            <a href="publiclogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">Public Login</a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a href="authoritylogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">Authority Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="tracking-container">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">Track Your Issue</h1>
+                <p class="lead text-muted">Enter your details to see the live status of your reported issue.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="card tracking-card p-4">
+                        <div class="card-body">
+                            <form id="tracking-form">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter valid email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="issueId" class="form-label">Issue ID</label>
+                                    <input type="text" class="form-control" id="issueId" placeholder="Enter your issueID" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary fw-semibold rounded-pill py-3" style="background-color: #f97316; border-color: #f97316;">Track Progress</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dashboard-container" class="dashboard-container">
+            </div>
+        </div>
+    </main>
+    <footer class="bg-success text-white py-5 mt-5 text-center rounded-top-3">
+        <p class="text-gray-200 mb-0">© 2025 Civic Connect | All rights reserved.</p>
+        <p class="text-gray-200 mb-0">Connecting Citizens for a Better Nations</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('tracking-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const issueId = document.getElementById('issueId').value;
+            const dashboardContainer = document.getElementById('dashboard-container');
+            try {
+                const response = await fetch('/api/trackIssue', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, issueId })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    displayDashboard(result.issue);
+                } else {
+                    showErrorAlert(result.message);
+                    dashboardContainer.style.display = 'none';
+                }
+            } catch (error) {
+                showErrorAlert('An unexpected error occurred. Please check the console for more details.');
+                console.error('Fetch error:', error);
+                dashboardContainer.style.display = 'none';
+            }
+        });
+        function displayDashboard(issue) {
+            const dashboardContainer = document.getElementById('dashboard-container');
+            const statuses = ['New', 'Under Review', 'In Progress', 'Resolved'];
+            const currentStatusIndex = statuses.indexOf(issue.status);
+            const urgencyColors = {
+                'Low': 'success',
+                'Medium': 'warning',
+                'High': 'danger'
+            };
+            let progressStepsHTML = '';
+            statuses.forEach((status, index) => {
+                progressStepsHTML += `
+                    <div class="progress-step ${index <= currentStatusIndex ? 'active' : ''}">
+                        <div class="step-icon"><i class="fas fa-check"></i></div>
+                        <small>${status}</small>
+                    </div>`;
+            });
+            dashboardContainer.innerHTML = `
+                <div class="row mt-5">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="${issue.issueImage || 'https://placehold.co/600x400/f97316/FFFFFF?text=No+Image'}" class="card-img-top" alt="Issue Image">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h4 class="card-title">${issue.subject}</h4>
+                                <span class="badge bg-${urgencyColors[issue.urgencyLevel]} urgency-badge">${issue.urgencyLevel} Urgency</span>
+                                <p class="card-text mt-3">${issue.description}</p>
+                                <p><i class="fas fa-map-marker-alt"></i> ${issue.address}</p>
+                                <p><i class="fas fa-calendar-alt"></i> Reported on: ${new Date(issue.createdAt).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-header">Status</div>
+                    <div class="card-body">
+                        <div class="progress-tracker">
+                            <div class="progress-bar-line"><div class="progress-bar-fill" style="width: ${(currentStatusIndex / (statuses.length - 1)) * 100}%;"></div></div>
+                            ${progressStepsHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+            dashboardContainer.style.display = 'block';
+        }
+        function showErrorAlert(message) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: message,
+                confirmButtonColor: '#f97316'
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const userName = localStorage.getItem("publicUserName");
+            if (userName) {
+                const navList = document.querySelector(".navbar-nav");
+                const loginButtons = navList.querySelectorAll(".btn-orange-outline");
+                loginButtons.forEach(btn => btn.closest('.nav-item').remove());
+                const liName = document.createElement("li");
+                liName.classList.add("nav-item", "ms-lg-3");
+                liName.innerHTML = `<span class="fw-semibold py-2 px-3 rounded-pill bg-warning text-dark">${userName}</span>`;
+                navList.appendChild(liName);
+                const liLogout = document.createElement("li");
+                liLogout.classList.add("nav-item", "ms-lg-2");
+                liLogout.innerHTML = `<button id="logoutBtn" class="btn btn-outline-warning fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">Logout</button>`;
+                navList.appendChild(liLogout);
+                document.getElementById("logoutBtn").addEventListener("click", () => {
+                    localStorage.removeItem("publicUserName");
+                    location.reload();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

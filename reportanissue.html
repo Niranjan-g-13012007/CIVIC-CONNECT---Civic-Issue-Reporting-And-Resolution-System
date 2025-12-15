@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Connect | Report an Issue</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .header-bg {
+        background-image: linear-gradient(to right, #ffe5b4, #ffffff);
+        }
+        .btn-orange-outline {
+        border-color: #f97316;
+        color: #f97316;
+        }
+        .btn-orange-outline:hover {
+        background-color: #f97316;
+        color: #ffffff;
+        }
+        .nav-link {
+        position: relative;
+        transition: color 0.3s ease, background-color 0.3s ease;
+        overflow: hidden;
+        z-index: 1;
+        }
+        .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background-color: #f97316;
+        border-radius: 2px;
+        transition: width 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+        width: 100%;
+        }
+        .nav-link.active {
+        color: #f97316 !important;
+        font-weight: 600;
+        background-color: #fff3e0;
+        border-radius: 0.5rem;
+        }
+        .nav-link.active:hover::after {
+        width: 0;
+        }
+        .marquee-bg {
+            background-color: #fff3e0;
+        }
+        .card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-img-top {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            min-height: 80px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+        .card-title-overlay {
+            font-weight: 600;
+        }
+        .card-text-overlay {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .btn-orange {
+            background-color: #f97316;
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-orange:hover {
+            background-color: #ea580c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            color: #fff;
+        }
+        .form-section {
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        .form-card {
+            border-radius: 1.5rem;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .form-control, .form-select {
+            border-radius: 0.75rem;
+            border: 2px solid #e2e8f0;
+            padding: 0.875rem 1.25rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.25);
+            transform: translateY(-1px);
+        }
+        .input-group-text {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            border-radius: 0.75rem 0 0 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .input-group:focus-within .input-group-text {
+            border-color: #f97316;
+            background: linear-gradient(135deg, #fff3e0 0%, #fef3c7 100%);
+        }
+        #map {
+            height: 400px;
+            border-radius: 1rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        #map:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        .feather {
+            width: 1.25rem;
+            height: 1.25rem;
+            stroke: #64748b;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+        .btn-location {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #4b5563;
+            border: 2px solid #d1d5db;
+            border-radius: 9999px;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-location:hover {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: #ffffff;
+            border-color: #f97316;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+        .urgency-radio-label {
+            display: block;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #e9ecef; 
+            color: #495057; 
+        }
+        .urgency-radio-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background-color: #dee2e6;
+        }
+        .urgency-radio {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .urgency-radio:checked + .urgency-radio-label {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 0 4px #f97316;
+            color: #fff;
+        }
+        .urgency-radio[value="High"]:checked + .urgency-radio-label {
+            background-color: #dc3545;
+            box-shadow: 0 4-5px 10px rgba(0, 0, 0, 0.2), 0 0 0 4px #dc3545;
+        }
+        .urgency-radio[value="Medium"]:checked + .urgency-radio-label {
+            background-color: #ffc107;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 0 4px #ffc107;
+        }
+        .urgency-radio[value="Low"]:checked + .urgency-radio-label {
+            background-color: #0dcaf0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 0 4px #0dcaf0;
+        }
+        .others-input {
+            display: none;
+        }
+        .form-label {
+            color: #374151;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .section-header {
+            color: #1f2937;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #f97316;
+            display: inline-block;
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .form-control[type="file"] {
+            padding: 0.5rem;
+        }
+        .form-control[type="file"]::-webkit-file-upload-button {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .form-control[type="file"]::-webkit-file-upload-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(249, 115, 22, 0.3);
+        }
+    </style>
+</head>
+    <body class="bg-light">
+        <header class="header-bg shadow-sm sticky-top z-10">
+        <nav class="navbar navbar-expand-md">
+            <div class="container-fluid mx-auto px-4 py-3 d-flex justify-content-between align-items-center">
+                <a href="#" class="navbar-brand d-flex align-items-center me-auto text-dark fw-bold rounded-md p-2 hover:bg-gray-100 transition-colors">
+                    <img src="civicconnect logo.png" alt="Civic Connect Logo" class="rounded-circle me-2" style="height: 48px; width: 48px;" onerror="this.src='https://placehold.co/48x48/14B8A6/FFFFFF?text=Logo'">
+                    <span class="fs-4">Civic Connect</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="issues.html">Issues</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="trackprogress.html">Track Progress</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" aria-current="page" href="reportanissue.html">Report an Issue</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="registration.html">Registration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium py-2 px-3 rounded-md hover:text-orange-500 transition-colors" href="aboutus.html">About Us</a>
+                        </li>
+                        <li class="nav-item ms-lg-3">
+                            <a href="publiclogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">
+                                Public Login
+                            </a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a href="authoritylogin.html" class="btn btn-outline-warning text-orange-500 fw-semibold py-2 px-4 rounded-pill shadow-sm btn-orange-outline">
+                                Authority Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+        <main class="form-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-9">
+                        <div class="card form-card shadow-lg p-md-5 p-4">
+                            <div class="text-center mb-5">
+                                <div class="d-flex align-items-center justify-content-center mb-3">
+                                <img src="megaphone.jpg" alt="Megaphone Icon" class="me-2" style="height: 36px;" onerror="this.src='https://placehold.co/36x36/d95311/ffffff?text=%F0%9F%93%A2'">
+                                <h2 class="fw-bold" style="color: #d95311;">Report a Civic Issue</h2>
+                            </div>
+                            <p class="text-muted mt-2">
+                                Your report helps us improve our community. Please fill out the form below with as many details as possible.
+                            </p>
+                        </div>
+                        <form id="report-issue-form">
+                            <div class="mb-4">
+                                <label for="reporterName" class="form-label fw-bold">Reporter Name <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    </span>
+                                    <input type="text" class="form-control" id="reporterName" name="reporterName" placeholder="Enter your full name" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="civicId" class="form-label fw-bold">Email ID <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                    </span>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email ID" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="issueType" class="form-label fw-bold">Type of Issue <span class="text-danger">*</span></label>
+                                <select class="form-select" id="issueType" name="issueType" required>
+                                    <option selected disabled value="">Select an issue type...</option>
+                                    <option>Roads & Transportation</option>
+                                    <option>Water & Sanitation</option>
+                                    <option>TNEB & Streetlights</option>
+                                    <option>Waste Management</option>
+                                    <option>Public Health & Hospitality</option>
+                                    <option>Public Parks & Spaces</option>
+                                    <option>General Nuisance</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                                <div id="otherIssueTypeContainer" class="others-input mt-3">
+                                    <input type="text" class="form-control" id="otherIssueType" placeholder="Specify the type of issue" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="issueSubject" class="form-label fw-bold">Subject of the Issue <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="issueSubject" name="subject" placeholder="e.g., Pothole on main street" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="issueDescription" class="form-label fw-bold">Detailed Description <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="issueDescription" name="description" rows="5" placeholder="Provide a detailed description of the issue..." required></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="issueImage" class="form-label fw-bold">Upload an Issue Image (Optional)</label>
+                                <input type="file" class="form-control" id="issueImage" name="issueImage" accept="image/*">
+                            </div>
+                            <div class="mb-4">
+                                <label for="urgencyLevel" class="form-label fw-bold">Urgency Level <span class="text-danger">*</span></label>
+                                <div class="row g-3">
+                                    <div class="col-4">
+                                        <input type="radio" class="urgency-radio" name="urgencyLevel" id="urgencyHigh" value="High" required>
+                                        <label for="urgencyHigh" class="urgency-radio-label">High</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="radio" class="urgency-radio" name="urgencyLevel" id="urgencyMedium" value="Medium">
+                                        <label for="urgencyMedium" class="urgency-radio-label">Medium</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="radio" class="urgency-radio" name="urgencyLevel" id="urgencyLow" value="Low">
+                                        <label for="urgencyLow" class="urgency-radio-label">Low</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="section-header mt-5">Address of the Issue <span class="text-danger">*</span></h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="area" name="area" placeholder="Area / Locality" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="City / Village" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="district" name="district" placeholder="District" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+                                </div>
+                            </div>
+                            <h5 class="section-header mt-5 d-flex justify-content-between align-items-center">
+                                Pinpoint Location on Map (Optional)
+                                <button type="button" class="btn btn-location" id="currentLocationBtn">
+                                    Use Current Location
+                                </button>
+                            </h5>
+                            <div id="map" class="mb-4"></div>
+                            <div class="d-grid mt-5">
+                                <button type="submit" class="btn btn-lg btn-orange rounded-pill py-3 fw-bold">Submit Report</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-success text-white py-5 mt-5 text-center rounded-top-3">
+        <p class="text-gray-200 mb-0">© 2025 Civic Connect | All rights reserved.</p>
+        <p class="text-gray-200 mb-0">Connecting Citizens for a Better Nations</p>
+    </footer>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                <div class="modal-header" style="border-bottom: none; padding: 2rem 2rem 0.5rem;">
+                    <h5 class="modal-title w-100 text-center" id="successModalLabel" style="font-weight: 700; color: #155724;">Success!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center" style="padding: 1rem 2rem 2rem;">
+                    <div class="mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <p id="successMessage" style="font-size: 1.1rem; color: #333;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7drzYLrVTLj9cfibl6mCgOd2Bm0RFoIE&callback=initMap&v=weekly" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const issueTypeSelect = document.getElementById('issueType');
+            const otherIssueTypeContainer = document.getElementById('otherIssueTypeContainer');
+            const otherIssueTypeInput = document.getElementById('otherIssueType');
+            issueTypeSelect.addEventListener('change', function() {
+                if (this.value === 'Others') {
+                    otherIssueTypeContainer.style.display = 'block';
+                    otherIssueTypeInput.setAttribute('required', 'required');
+                } else {
+                    otherIssueTypeContainer.style.display = 'none';
+                    otherIssueTypeInput.removeAttribute('required');
+                }
+            });
+            const currentLocationBtn = document.getElementById('currentLocationBtn');
+            currentLocationBtn.addEventListener('click', () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const userLocation = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            map.setCenter(userLocation);
+                            marker.setPosition(userLocation);
+                            console.log("Map centered on current location:", userLocation);
+                        },
+                        () => {
+                            console.error("Error: The Geolocation service failed.");
+                        }
+                    );
+                } else {
+                    console.error("Error: Your browser doesn't support geolocation.");
+                }
+            });
+        });
+        let map;
+        let marker;
+        function initMap() {
+            const defaultLocation = { lat: 11.6643, lng: 78.1481 };
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: defaultLocation,
+            });
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+                draggable: true,
+                title: "Drag me to set the location"
+            });
+            marker.addListener("dragend", () => {
+                const newPosition = marker.getPosition();
+                console.log("Marker Position:", newPosition.lat(), newPosition.lng());
+            });
+            map.addListener("click", (e) => {
+                marker.setPosition(e.latLng);
+                console.log("Marker Position:", e.latLng.lat(), e.latLng.lng());
+            });
+        }
+        document.getElementById('report-issue-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const address = [
+                formData.get('area'),
+                formData.get('city'),
+                formData.get('district'),
+                formData.get('pincode'),
+                formData.get('state')
+            ].filter(Boolean).join(', ');
+            const submissionData = new FormData();
+            submissionData.append('reporterName', formData.get('reporterName'));
+            submissionData.append('email', formData.get('email'));
+            submissionData.append('issueType', formData.get('issueType'));
+            submissionData.append('subject', formData.get('subject'));
+            submissionData.append('description', formData.get('description'));
+            submissionData.append('urgencyLevel', formData.get('urgencyLevel'));
+            submissionData.append('address', address);
+            const issueImage = document.getElementById('issueImage').files[0];
+            if (issueImage) {
+                submissionData.append('issueImage', issueImage);
+            }
+            try {
+                const response = await fetch('/api/reportIssue', {
+                    method: 'POST',
+                    body: submissionData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.innerHTML = `Your issue has been reported successfully. Kindly note your Issue ID: <strong style="color: #d95311;">${result.issueId}</strong> for further process.`;                   
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                    form.reset();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('An error occurred while submitting the form. Please try again.');
+            }
+        });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const userName = localStorage.getItem("publicUserName");
+    if (userName) {
+        const navList = document.querySelector(".navbar-nav");
+        navList.querySelectorAll(".btn-orange-outline").forEach(btn => btn.remove());
+        const liName = document.createElement("li");
+        liName.classList.add("nav-item", "ms-lg-3");
+        liName.innerHTML = `<span class="fw-semibold py-2 px-3 rounded-pill bg-warning text-dark">${userName}</span>`;
+        navList.appendChild(liName);
+        const liLogout = document.createElement("li");
+        liLogout.classList.add("nav-item", "ms-lg-2");
+        liLogout.innerHTML = `<button id="logoutBtn" class="btn btn-outline-warning fw-semibold py-2 px-4 rounded-pill btn-orange-outline">Logout</button>`;
+        navList.appendChild(liLogout);
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("publicUserName");
+            location.reload();
+        });
+    }
+});
+</script>
+</body>
+</html>
